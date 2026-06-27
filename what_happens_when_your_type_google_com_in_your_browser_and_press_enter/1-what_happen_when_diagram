@@ -1,0 +1,5 @@
+![diagram showing sequential flow of browser request when typing google com and pressing enter including DNS lookup, TCP handshake, HTTP request and server response in a network context](./mermaid-diagram.png)
+
+
+
+This diagram shows the request flow after typing `https://www.google.com` in the browser. The browser first resolves the domain name using DNS, then connects to the returned server IP address on port 443. The request is encrypted using HTTPS/TLS, passes through a firewall, reaches a load balancer, and is forwarded to a web server. If dynamic content is needed, the web server communicates with an application server, which may request data from a database before returning the final web page to the browser.
