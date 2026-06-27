@@ -1,0 +1,143 @@
+# What Happens When You Type https://www.google.com in Your Browser and Press Enter?
+
+When you type `https://www.google.com` into your browser and press Enter, it may look like a simple action, but many systems work together in a very short amount of time. The browser, operating system, DNS servers, network devices, firewalls, load balancers, web servers, application servers, and databases all play a role in loading the page.
+
+## 1. The Browser Checks the URL
+
+First, the browser reads the URL. In this case:
+
+`https://www.google.com`
+
+The browser understands that:
+
+* `https` means the connection must be secure.
+* `www.google.com` is the domain name.
+* The default port for HTTPS is port `443`.
+
+Before the browser can connect to Google, it needs to know the IP address of `www.google.com`.
+
+## 2. DNS Request
+
+Computers communicate using IP addresses, not domain names. Because humans remember names better than numbers, DNS is used to translate domain names into IP addresses.
+
+The browser first checks if it already knows the IP address by looking in its cache. If not, the operating system checks its own DNS cache. If the IP address is still not found, a DNS request is sent to a DNS resolver, usually provided by the internet service provider or a public DNS service.
+
+The DNS resolver may contact several DNS servers:
+
+* Root DNS servers
+* Top-level domain servers for `.com`
+* Authoritative DNS servers for `google.com`
+
+Finally, the DNS resolver returns an IP address for `www.google.com` to the browser.
+
+## 3. TCP/IP Connection
+
+After the browser gets the IP address, it needs to create a connection with the server. This happens using TCP/IP.
+
+IP is responsible for sending packets from the client device to the destination server. TCP is responsible for making sure the connection is reliable and that data arrives in the correct order.
+
+Before data can be exchanged, TCP performs a three-way handshake:
+
+1. The client sends a SYN packet.
+2. The server replies with a SYN-ACK packet.
+3. The client sends an ACK packet.
+
+After this handshake, a TCP connection is established between the browser and the server.
+
+## 4. Firewall
+
+During the request journey, the traffic may pass through multiple firewalls. A firewall is a security system that controls incoming and outgoing network traffic based on rules.
+
+Firewalls help protect systems by:
+
+* Blocking suspicious traffic
+* Allowing only specific ports such as port `443` for HTTPS
+* Preventing unauthorized access
+* Filtering malicious requests
+
+For this request, the firewall allows HTTPS traffic to continue because it is using the correct secure port.
+
+## 5. HTTPS and SSL/TLS
+
+Because the URL uses HTTPS, the browser and server must create a secure encrypted connection before sending sensitive data.
+
+HTTPS uses SSL/TLS to encrypt the communication. Today, TLS is the modern protocol, but many people still use the term SSL.
+
+The TLS handshake includes these steps:
+
+1. The browser says it wants to start a secure connection.
+2. The server sends its SSL/TLS certificate.
+3. The browser verifies that the certificate is valid and trusted.
+4. The browser and server agree on encryption keys.
+5. Encrypted communication begins.
+
+This protects the user by making sure that attackers cannot easily read or modify the data being sent between the browser and the server.
+
+## 6. Load Balancer
+
+Large websites like Google do not depend on only one server. They use many servers to handle millions of users at the same time.
+
+A load balancer receives the incoming request and decides which server should handle it. The load balancer helps with:
+
+* Distributing traffic across multiple servers
+* Improving performance
+* Avoiding overload on one server
+* Increasing availability if one server fails
+
+The load balancer forwards the request to a healthy server that can process it.
+
+## 7. Web Server
+
+The web server receives the HTTPS request. A web server is responsible for handling HTTP requests and returning HTTP responses.
+
+The web server may serve static content directly, such as:
+
+* HTML files
+* CSS files
+* JavaScript files
+* Images
+
+If the request needs dynamic processing, the web server forwards it to an application server.
+
+## 8. Application Server
+
+The application server contains the business logic of the website. It decides what should happen based on the user request.
+
+For example, the application server may:
+
+* Process search queries
+* Check user sessions
+* Generate dynamic content
+* Communicate with internal services
+* Request data from a database
+
+The application server prepares the response that should be returned to the user.
+
+## 9. Database
+
+If the application needs stored information, it communicates with a database. A database stores structured data and allows the application to create, read, update, or delete information.
+
+For example, a database may store:
+
+* User account information
+* Search history
+* Configuration data
+* Application records
+
+The database returns the requested data to the application server. The application server then uses that data to build the response.
+
+## 10. The Response Returns to the Browser
+
+After the web server or application server prepares the response, it is sent back through the same general path:
+
+Server → Load balancer → Internet → User’s browser
+
+Because the connection is encrypted with HTTPS, the data remains protected while traveling across the network.
+
+The browser receives the HTML, CSS, JavaScript, images, and other resources. It then renders the page so the user can see and interact with it.
+
+## Conclusion
+
+Typing `https://www.google.com` and pressing Enter starts a complex process behind the scenes. The browser performs a DNS lookup, establishes a TCP/IP connection, passes through firewalls, creates a secure HTTPS connection using SSL/TLS, reaches a load balancer, communicates with web servers and application servers, and may retrieve data from databases.
+
+Even though this happens in seconds or less, it involves many important layers of modern web infrastructure. Understanding this flow is important for full-stack engineers because it shows how networking, security, backend systems, and frontend rendering work together to deliver a website to the user.
